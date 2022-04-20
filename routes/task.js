@@ -1,8 +1,9 @@
 const router = require ("express").Router();
 const tasks = require("../models/tasks");
+const { verifyToken } = require("../validation");
 
-router.post("/", (req, res) => {
-
+router.post("/", async (req, res) => {
+    const task = new tasks({...req.body,projects:req._id})
     data = req.body;
 
     tasks.insertMany(data)
