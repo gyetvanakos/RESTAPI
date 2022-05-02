@@ -20,7 +20,8 @@ let userSchema = new Schema(
         password: { type: String, required: true, min: 6, max: 255 },
         role: { type: Number,   default : 1 },
         avatar: { type: String, default :'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.w3schools.com%2Fhowto%2Fhowto_css_image_avatar.asp&psig=AOvVaw2YfLXCEWHVCpux3hDyRI5O&ust=1651580288009000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLjZk5XmwPcCFQAAAAAdAAAAABAD'  },
-        date: { type: Date, default: Date.now }
+        date: { type: Date, default: Date.now },
+        project: { type: Schema.Types.ObjectId, default: 'null', ref:'projects'}
     }
 )
 module.exports = mongoose.model("user", userSchema);

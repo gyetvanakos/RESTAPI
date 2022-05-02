@@ -7,7 +7,7 @@ let taksSchema = new Schema(
         task: { type: String, required: true, minlength: 4, maxlength: 50 },
         taskDescription: { type: String, required: true },
         status: { type: Boolean, required: true },
-        projects: { type: Schema.Types.ObjectId, required: true, ref:'projects'},
+        project: { type: Schema.Types.ObjectId, required: true, ref:'projects'},
         owner: { type: Schema.Types.ObjectId, required: true, ref:'users'}
     }  
 );

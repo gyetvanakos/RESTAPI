@@ -1,11 +1,12 @@
 const router = require ("express").Router();
 const tasks = require("../models/tasks");
 const users = require("../models/users");
+const projects = require("../models/projects");
 const { verifyToken } = require("../validation");
 
 router.post("/", async (req, res) => {
-    const task = new tasks({...req.body,projects:req._id})
     const user = new users({...req.body,user:req._id})
+    const project = new projects({...req.body,projects:req._id})
 
     data = req.body;
 
