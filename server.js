@@ -6,6 +6,12 @@ const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
 const taskRoutes = require("./routes/task");
 
+const swaggerUI= require('swagger-ui-express');
+const yaml = require('yamljs');
+
+const swaggerDefinition = yaml.load('./swagger.yaml');
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDefinition));
+
 require("dotenv-flow").config();
 
 app.use(bodyParser.json());

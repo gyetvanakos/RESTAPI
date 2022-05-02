@@ -7,7 +7,8 @@ let projectSchema = new Schema(
         backgr_pic: { type: String, required: true, minlength: 4, maxlength: 255 },
         description: { type: String, required: true },
         date: { type: Date, default: Date.now },
-        tasks: [{ type: Schema.Types.ObjectId, required: true, ref:'tasks'}]
+        task: [{ type: Schema.Types.ObjectId, required: true, ref:'tasks'}],
+        user: [{ type: Schema.Types.ObjectId, required: true, ref:'users'}]
     }  
 );
 
