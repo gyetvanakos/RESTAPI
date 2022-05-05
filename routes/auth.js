@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt');
 const { registerValidation } = require ('../validation');
 const { loginValidation } = require ('../validation');
 const jwt = require('jsonwebtoken');
+const users = require("../models/users");
+
+//picture upload/storage
+
 
 router.post("/register", async (req, res) => {
    
@@ -38,6 +42,43 @@ router.post("/register", async (req, res) => {
     } catch (error) {
         res.status(400).json({error: "we have some problem"})
     }
+});
+
+
+//not working yet
+router.put("/:id", (req, res) => {
+
+    const id = req.body.id;
+    const user = new User({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password,
+        role: req.body.role,
+        avatar: req.body.file
+    });
+
+    users.findByIdAndUpdate(id, req.body)
+    .then(data => { 
+        if(!data)
+        {
+            res.status(404).send({message: "Cannot update user id=" + id})
+        }
+        else
+        {
+            res.send({ message: "user profile is updated"})
+        }
+    })
+    .catch(err => { res.status(500).send({ message: "error updating user with id=" + id }); });
+
+});
+
+router.get("/", (req, res) => {
+
+    users.find()
+    .then(data => { res.send(data); })
+    .catch(err => { res.status(500).send({ message: err.message }); });
+
 });
 
 router.post("/login", async (req, res) => {

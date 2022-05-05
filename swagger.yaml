@@ -177,27 +177,6 @@ paths:
                 items:
                   $ref: "#/components/schemas/Projects"
     
-    /tasks/{id}:
-    get:
-      summary: Specific task
-      description: Retrieves a task project based on its id.
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: MongoDB id
-          schema:
-            type: string
-      responses:
-        200:
-          description: A task in the format of a JSON object.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Tasks"
-   
     put:
       summary: Updates a specific project
       description: Updates a specific project based on it id
@@ -225,33 +204,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Projects"
 
-      put:
-      summary: Updates a specific task
-      description: Updates a specific task based on its id
-      security:
-        - ApiKeyAuth: []            
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: MongoDB id
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Tasks"
-
-        responses:
-        201:
-          description: Task updated succesfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Tasks"
-
     delete:
       summary: Deletes a specific project
       description: Deletes a specific project based on it id
@@ -274,6 +226,93 @@ paths:
                 $ref: "#/components/schemas/Projects"
 
 
+
+
+
+
+
+    /tasks:
+    get:
+      summary: Retrieves a list of tasks
+      description: Retrieves a list of tasks as JSON objects.
+      responses:
+        200:
+          description: A list of tasks JSON objects in an array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+    
+    post:
+      summary: New task
+      description: New task
+      security:
+        - ApiKeyAuth: []      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tasks"
+
+      responses:
+        201:
+          description: Task created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+    /tasks/{id}:
+    get:
+      summary: Specific task
+      description: Retrieves a specific task based on its id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A task in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+
+    put:
+      summary: Updates a specific task
+      description: Updates a specific task based on its id
+      security:
+        - ApiKeyAuth: []            
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tasks"
+
+      responses:
+        201:
+          description: Task updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
     delete:
       summary: Deletes a specific task
       description: Deletes a specific task based on it id
@@ -289,8 +328,9 @@ paths:
 
       responses:
         201:
-          description: Projects deleted succesfully
+          description: Task deleted succesfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Tasks"
+                $ref: "#/components/schemas/Projects"
+  
