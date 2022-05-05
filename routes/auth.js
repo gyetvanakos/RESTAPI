@@ -44,19 +44,9 @@ router.post("/register", async (req, res) => {
     }
 });
 
-
-//not working yet
 router.put("/:id", (req, res) => {
 
-    const id = req.body.id;
-    const user = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        password,
-        role: req.body.role,
-        avatar: req.body.file
-    });
+    const id = req.params.id;
 
     users.findByIdAndUpdate(id, req.body)
     .then(data => { 
