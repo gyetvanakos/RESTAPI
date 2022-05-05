@@ -23,8 +23,8 @@ let userSchema = new Schema(
             default: 'user',
             enum: ["user", "admin"]
            },
-        avatar: { type: String },
-        /*avatar: { data: Buffer,
+        /*avatar: { type: String },
+        avatar: { data: Buffer,
                   contentType: String},*/
         date: { type: Date, default: Date.now }
     }
