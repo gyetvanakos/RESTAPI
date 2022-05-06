@@ -121,8 +121,9 @@ router.post("/login", async (req, res) => {
     res.header("auth-token", token).json({
         message: "Logged in succesfully",
         error: null,
-        data: { token },
-        userId: user._id
+        data: { token ,
+            userId : id},
+        
     });
 })
 
