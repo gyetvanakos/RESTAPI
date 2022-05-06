@@ -13,6 +13,7 @@ const {
 const jwt = require('jsonwebtoken');
 const users = require("../models/users");
 const NodeCache = require('node-cache');
+const validator = require('validator');
 const cache = new NodeCache({
     stdTTL: 600
 });
@@ -41,6 +42,11 @@ router.post("/register", async (req, res) => {
             error: "Email exists"
         });
     }
+
+    if(!validator.isEmail(value)){
+        throw new Error('Email is invalid')
+    }
+
 
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
