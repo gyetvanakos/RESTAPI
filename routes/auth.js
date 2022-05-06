@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.put("/:id", verifyToken,(req, res) => {
+router.put("/:id", /*verifyToken,*/(req, res) => {
 
     const id = req.params.id;
 
@@ -66,7 +66,7 @@ router.put("/:id", verifyToken,(req, res) => {
 
 });
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", /*verifyToken,*/ async (req, res) => {
     try{
         let usersCache = cache.get('allUsers');
 
