@@ -122,7 +122,7 @@ router.post("/login", async (req, res) => {
         message: "Logged in succesfully",
         error: null,
         data: { token },
-        userId: id
+        userId: user._id
     });
 })
 
