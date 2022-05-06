@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
         throw new Error('Email is invalid')
     }
 
-
+    const avatarImg = "https://i.stack.imgur.com/l60Hf.png";
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
     const user = new User({
@@ -55,7 +55,7 @@ router.post("/register", async (req, res) => {
         last_name: req.body.last_name,
         email: req.body.email,
         password,
-        role: req.body.role
+        avatar: req.body.avatarImg
     });
 
     try {
