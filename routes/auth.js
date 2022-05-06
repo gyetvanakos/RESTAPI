@@ -33,8 +33,7 @@ router.post("/register", async (req, res) => {
         last_name: req.body.last_name,
         email: req.body.email,
         password,
-        role: req.body.role,
-        avatar: req.body.avatar
+        role: req.body.role
     });
 
     try {
@@ -123,7 +122,7 @@ router.post("/login", async (req, res) => {
         message: "Logged in succesfully",
         error: null,
         data: { token },
-        
+        userId: id
     });
 })
 
