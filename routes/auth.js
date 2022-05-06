@@ -3,6 +3,7 @@ const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const { registerValidation } = require ('../validation');
 const { loginValidation } = require ('../validation');
+const { verifyToken } = require("../validation");
 const jwt = require('jsonwebtoken');
 const users = require("../models/users");
 const NodeCache = require('node-cache');
@@ -46,7 +47,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", verifyToken,(req, res) => {
 
     const id = req.params.id;
 
@@ -65,7 +66,7 @@ router.put("/:id", (req, res) => {
 
 });
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     try{
         let usersCache = cache.get('allUsers');
 

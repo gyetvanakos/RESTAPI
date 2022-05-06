@@ -2,8 +2,9 @@ const router = require ("express").Router();
 const projects = require ("../models/projects");
 const NodeCache = require('node-cache');
 const cache = new NodeCache({stdTTL: 600});
+const { verifyToken } = require("../validation");
 
-router.post("/", (req, res) => {
+router.post("/", verifyToken, (req, res) => {
 
     data = req.body;
 
@@ -15,7 +16,7 @@ router.post("/", (req, res) => {
 });
 
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
         try{
             let projectCache = cache.get('allProjects');
     
@@ -40,7 +41,7 @@ router.get("/", async (req, res) => {
     });
 
 
-router.get("/:id", (req, res) => {
+router.get("/:id", verifyToken, (req, res) => {
 
     projects.findById(req.params.id)
     .then(data => { res.send(data); })
@@ -48,7 +49,7 @@ router.get("/:id", (req, res) => {
 
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;
 
@@ -67,7 +68,7 @@ router.put("/:id", (req, res) => {
 
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;
 

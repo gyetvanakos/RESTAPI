@@ -11,6 +11,7 @@ const multer = require("multer");
 const swaggerUI= require('swagger-ui-express');
 const yaml = require('yamljs');
 const router = require("./routes/auth");
+const { TokenExpiredError } = require("jsonwebtoken");
 
 const swaggerDefinition = yaml.load('./swagger.yaml');
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDefinition));
@@ -18,6 +19,13 @@ app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDefinition));
 require("dotenv-flow").config();
 
 app.use(bodyParser.json());
+
+app.use(function (req,res, next) {
+ res.header("Access-Control-Allow-Origin", "*")
+ res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
+ res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept")
+ next();
+})
 
 
 mongoose.connect(
