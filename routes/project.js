@@ -1,23 +1,44 @@
 const router = require ("express").Router();
 const projects = require ("../models/projects");
+const NodeCache = require('node-cache');
+const cache = new NodeCache({stdTTL: 600});
 
 router.post("/", (req, res) => {
 
     data = req.body;
 
     projects.insertMany(data)
-    .then(data => { res.status(200).send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
-
+    .then(data => {
+        cache.flushAll();
+        res.send(data);})
+    .catch(err => {res.status(500).send({message: err.message });})
 });
 
-router.get("/", (req, res) => {
 
-    projects.find()
-    .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
+router.get("/", async (req, res) => {
+        try{
+            let projectCache = cache.get('allProjects');
+    
+    
+            if(!projectCache) {
+                let data = await projects.find();
+                console.log("No cache data found. Fetching from DB....");
+                cache.set('allProjects', data, 30);
+    
+                res.send((data));
+            }
+    
+            else{
+                console.log("Cache found :]");
+                res.send((projectCache));
+            }
+    
+        }
+        catch(err){
+            res.status(500).send({message: err.message})
+        }
+    });
 
-});
 
 router.get("/:id", (req, res) => {
 

@@ -5,6 +5,8 @@ const { registerValidation } = require ('../validation');
 const { loginValidation } = require ('../validation');
 const jwt = require('jsonwebtoken');
 const users = require("../models/users");
+const NodeCache = require('node-cache');
+const cache = new NodeCache({stdTTL: 600});
 
 //picture upload/storage
 
@@ -63,13 +65,30 @@ router.put("/:id", (req, res) => {
 
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    try{
+        let usersCache = cache.get('allUsers');
 
-    users.find()
-    .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
 
+        if(!usersCache) {
+            let data = await users.find();
+            console.log("No cache data found. Fetching from DB....");
+            cache.set('allUsers', data, 30);
+
+            res.send((data));
+        }
+
+        else{
+            console.log("Cache found :]");
+            res.send((usersCache));
+        }
+
+    }
+    catch(err){
+        res.status(500).send({message: err.message})
+    }
 });
+
 
 router.post("/login", async (req, res) => {
     const{error} = loginValidation(req.body);

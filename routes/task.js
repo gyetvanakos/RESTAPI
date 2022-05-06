@@ -3,6 +3,8 @@ const tasks = require("../models/tasks");
 const users = require("../models/users");
 const projects = require("../models/projects");
 const { verifyToken } = require("../validation");
+const NodeCache = require('node-cache');
+const cache = new NodeCache({stdTTL: 600});
 
 router.post("/", async (req, res) => {
     const user = new users({...req.body,user:req._id})
@@ -16,12 +18,28 @@ router.post("/", async (req, res) => {
 
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    try{
+        let taskCache = cache.get('allTasks');
 
-    tasks.find()
-    .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
 
+        if(!taskCache) {
+            let data = await tasks.find();
+            console.log("No cache data found. Fetching from DB....");
+            cache.set('allTasks', data, 30);
+
+            res.send((data));
+        }
+
+        else{
+            console.log("Cache found :]");
+            res.send((taskCache));
+        }
+
+    }
+    catch(err){
+        res.status(500).send({message: err.message})
+    }
 });
 
 router.get("/:id", (req, res) => {
