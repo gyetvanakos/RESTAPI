@@ -61,6 +61,7 @@ router.post("/register", async (req, res) => {
     try {
         const savedUser = await user.save();
         res.json({
+            message: "Succesful registration",
             error: null,
             data: savedUser._id
         });
@@ -68,7 +69,7 @@ router.post("/register", async (req, res) => {
 
     } catch (error) {
         res.status(400).json({
-            error: "we have some problem"
+            error: "Unsuccesful registration"
         })
     }
 });
