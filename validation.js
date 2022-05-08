@@ -6,7 +6,7 @@ const registerValidation = (data) => {
         {
             first_name: joi.string().max(255).required(),
             last_name: joi.string().max(255).required(),
-            email: joi.string().min(6).max(255).required(),
+            email: joi.string().max(255).required(),
             password: joi.string().min(6).max(255).required(),
             avatar: joi.string()
         });
@@ -16,7 +16,7 @@ const registerValidation = (data) => {
 const loginValidation = (data) => {
     const schema = joi.object(
         {
-            email: joi.string().min(6).max(255).required(),
+            email: joi.string().max(255).required(),
             password: joi.string().min(6).max(255).required()
         });
     return schema.validate(data);

@@ -43,9 +43,9 @@ router.post("/register", async (req, res) => {
         });
     }
 
-    if(!validator.isEmail(value)){
+    /*if(!validator.isEmail(value)){
         throw new Error('Email is invalid')
-    }
+    }*/
 
     const avatarImg = "https://i.stack.imgur.com/l60Hf.png";
     const salt = await bcrypt.genSalt(10);
