@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
         last_name: req.body.last_name,
         email: req.body.email,
         password,
-        avatar: req.body.avatarImg
+        avatar: avatarImg
     });
 
     try {
@@ -131,9 +131,27 @@ router.post("/login", async (req, res) => {
         })
     }
 
+    const emailFormat = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+    if (emailFormat) {
+        return res.status(400).json({
+            error: "It's not an email"
+        });
+    }
+     const emailCheck = await User.findOne({
+        email: req.body.email
+    });
+
+    if (!emailCheck) {
+        return res.status(400).json({
+            error: "Email doesn't exists"
+        });
+    }
+
     const user = await User.findOne({
         email: req.body.email
     });
+
 
     if (!user) {
         return res.status(400).json({

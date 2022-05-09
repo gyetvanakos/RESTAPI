@@ -8,7 +8,6 @@ const registerValidation = (data) => {
             last_name: joi.string().max(255).required(),
             email: joi.string().max(255).required(),
             password: joi.string().min(6).max(255).required(),
-            avatar: joi.string()
         });
     return schema.validate(data);
 }
