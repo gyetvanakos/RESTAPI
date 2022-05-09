@@ -43,9 +43,6 @@ router.post("/register", async (req, res) => {
         });
     }
 
-    /*if(!validator.isEmail(value)){
-        throw new Error('Email is invalid')
-    }*/
 
     const avatarImg = "https://i.stack.imgur.com/l60Hf.png";
     const salt = await bcrypt.genSalt(10);
@@ -74,7 +71,8 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.put("/:id", /*verifyToken,*/ (req, res) => {
+router.put("/:id", /*verifyToken,*/ async (req, res) => {
+
 
     const id = req.params.id;
 
