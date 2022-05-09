@@ -8,6 +8,8 @@ var validateEmail = function(email) {
     return re.test(email)
 };
 
+const avatarImg = "https://i.stack.imgur.com/l60Hf.png";
+
 let userSchema = new Schema(
     {
         first_name: { type: String, required: true, max: 255 },
@@ -20,10 +22,9 @@ let userSchema = new Schema(
         required: 'Email address is required',
         validate: [validateEmail, 'Please fill a valid email address'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
-            trim: true
+        trim: true
         },
         password: { type: String, required: true, min: 6, max: 255 },
-        avatar: { type: String },
         date: { type: Date, default: Date.now }
     }
 )
