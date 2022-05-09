@@ -18,7 +18,7 @@ router.post("/", /*verifyToken,*/ async (req, res) => {
 
 });
 
-router.get("/", /*verifyToken,*/ async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     try{
         let taskCache = cache.get('allTasks');
 
@@ -42,7 +42,7 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
     }
 });
 
-router.get("/:id", /*verifyToken,*/ (req, res) => {
+router.get("/:id", verifyToken, (req, res) => {
 
     tasks.findById(req.params.id)
     .then(data => { res.send(data); })
@@ -50,7 +50,7 @@ router.get("/:id", /*verifyToken,*/ (req, res) => {
 
 });
 
-router.put("/:id", /*verifyToken,*/ (req, res) => {
+router.put("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;
 
@@ -69,7 +69,7 @@ router.put("/:id", /*verifyToken,*/ (req, res) => {
 
 });
 
-router.delete("/:id", /*verifyToken,*/ (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;
 
