@@ -162,6 +162,8 @@ paths:
     get:
       summary: Specific project
       description: Retrieves a specific project based on its id.
+      security:
+        - ApiKeyAuth: []  
       parameters:
         - in: path
           name: id
@@ -237,6 +239,8 @@ paths:
     get:
       summary: Retrieves a list of tasks
       description: Retrieves a list of tasks as JSON objects.
+      security:
+        - ApiKeyAuth: []  
       responses:
         200:
           description: A list of tasks JSON objects in an array.
@@ -271,6 +275,8 @@ paths:
     get:
       summary: Specific task
       description: Retrieves a specific task based on its id.
+      security:
+        - ApiKeyAuth: []  
       parameters:
         - in: path
           name: id

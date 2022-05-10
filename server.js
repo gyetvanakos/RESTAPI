@@ -17,10 +17,15 @@ require("dotenv-flow").config();
 
 app.use(bodyParser.json());
 
-app.use(function (req,res, next) {
+app.use(function (req, res, next) {
+ headers: {'X-Requested-With': 'XMLHttpRequest'}
+ withCredentials: true
  res.header("Access-Control-Allow-Origin", "*")
- res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept")
+ if (req.method === "OPTION"){
+    res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
+    return res.status(200).json({});
+} 
  next();
 })
 
