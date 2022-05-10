@@ -124,23 +124,25 @@ paths:
 
   /projects:
     get:
-      summary: Retrieves a list of projects
-      description: Retrieves a list of projects as JSON objects.
+      summary: Retrieves a list of Products
+      description: Retrieves a list of products as JSON objects.
+      security:
+        - ApiKeyAuth: []  
       responses:
         200:
-          description: A list of projects JSON objects in an array.
+          description: A list of product JSON objects in an array.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/projects"
+                  $ref: "#/components/schemas/Product"
     
     post:
       summary: New project
       description: New project
       security:
-        - ApiKeyAuth: []      
+        - ApiKeyAuth: []     
       requestBody:
         required: true
         content:

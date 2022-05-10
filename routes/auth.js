@@ -119,6 +119,14 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
     }
 });
 
+router.get("/:id",  (req, res) => {
+
+    users.findById(req.params.id)
+    .then(data => { res.send(data); })
+    .catch(err => { res.status(500).send({ message: err.message }); });
+
+});
+
 
 router.post("/login", async (req, res) => {
     const {
