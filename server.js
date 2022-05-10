@@ -18,8 +18,6 @@ require("dotenv-flow").config();
 app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
- headers: {'X-Requested-With': 'XMLHttpRequest'}
- withCredentials: true
  res.header("Access-Control-Allow-Origin", "*")
  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept")
  if (req.method === "OPTION"){
