@@ -19,7 +19,6 @@ router.post("/", verifyToken, (req, res) => {
 router.get("/", verifyToken, async (req, res) => {
         try{
             let projectCache = cache.get('allProjects');
-            
     
     
             if(!projectCache) {
