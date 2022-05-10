@@ -8,7 +8,7 @@ var validateEmail = function(email) {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email)
 };
-
+const profileImg = "https://i.stack.imgur.com/l60Hf.png";
 
 let userSchema = new Schema(
     {
@@ -24,7 +24,7 @@ let userSchema = new Schema(
         },
         password: { type: String, required: true, min: 6, max: 255 },
         date: { type: Date, default: Date.now },
-        avatar: { type: String }
+        avatar: {  type: String, default:profileImg }
     }
 )
 module.exports = mongoose.model("user", userSchema);
