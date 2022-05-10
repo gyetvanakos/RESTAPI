@@ -22,10 +22,7 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
  res.header("Access-Control-Allow-Origin", "*")
  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept")
- if (req.method === "OPTION"){
-    res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
-    return res.status(200).json({});
-} 
+ res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
  next();
 })
 
