@@ -16,7 +16,7 @@ router.post("/", verifyToken, (req, res) => {
 });
 
 
-router.get("/:userId", verifyToken, async (req, res) => {
+router.get("/:userId/", verifyToken, async (req, res) => {
     const userId = req.params.userId;
 
         try{
