@@ -119,7 +119,8 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
     }
 });
 
-router.get("/:id",  (req, res) => {
+router.get("/:userId",  (req, res) => {
+    const userId = req.params.userId;
 
     users.findById(req.params.id)
     .then(data => { res.send(data); })

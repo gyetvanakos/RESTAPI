@@ -18,37 +18,39 @@ router.post("/", /*verifyToken,*/ async (req, res) => {
 
 });
 
-router.get("/", verifyToken, async (req, res) => {
-    try{
-        let taskCache = cache.get('allTasks');
+router.get("/:userId", verifyToken, async (req, res) => {
+    const userId = req.params.userId;
 
-
-        if(!taskCache) {
-            let data = await tasks.find();
-            console.log("No cache data found. Fetching from DB....");
-            cache.set('allTasks', data, 30);
-
-            res.send((data));
+        try{
+            let tasksCache = cache.get('allTasksByOwnerId');
+    
+    
+            if(!tasksCache) {
+                let data = await tasks.find().where('ownerId').equals(userId);
+                console.log("No cache data found. Fetching from DB....");
+                cache.set('allTasksByOwnerId', data, 30);
+    
+                res.send((data));
+            }
+    
+            else{
+                console.log("Cache found :]");
+                res.send((tasksCache));
+            }
+    
         }
-
-        else{
-            console.log("Cache found :]");
-            res.send((taskCache));
+        catch(err){
+            res.status(500).send({message: err.message})
         }
+    });
 
-    }
-    catch(err){
-        res.status(500).send({message: err.message})
-    }
-});
-
-router.get("/:id", verifyToken, (req, res) => {
+/*router.get("/:id", verifyToken, (req, res) => {
 
     tasks.findById(req.params.id)
     .then(data => { res.send(data); })
     .catch(err => { res.status(500).send({ message: err.message }); });
 
-});
+});*/
 
 router.put("/:id", verifyToken, (req, res) => {
 

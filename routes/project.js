@@ -43,13 +43,13 @@ router.get("/:userId", verifyToken, async (req, res) => {
     });
 
 
-router.get("/:id", verifyToken, (req, res) => {
+/*router.get("/:id", verifyToken, (req, res) => {
 
     projects.findById(req.params.id)
     .then(data => { res.send(data); })
     .catch(err => { res.status(500).send({ message: err.message }); });
 
-});
+});*/
 
 router.put("/:id", verifyToken, (req, res) => {
 
