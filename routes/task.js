@@ -58,14 +58,14 @@ router.put("/:id", verifyToken, (req, res) => {
     .then(data => { 
         if(!data)
         {
-            res.status(404).send({message: "Cannot update project :( id=" + id})
+            res.status(404).send({message: "Cannot update task :( id=" + id})
         }
         else
         {
-            res.send({ message: "project is updated :)"})
+            res.send({ message: "task is updated :)"})
         }
     })
-    .catch(err => { res.status(500).send({ message: "error updating product with id=" + id }); });
+    .catch(err => { res.status(500).send({ message: "error updating task with id=" + id }); });
 
 });
 

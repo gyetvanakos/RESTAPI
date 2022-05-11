@@ -16,15 +16,17 @@ router.post("/", verifyToken, (req, res) => {
 });
 
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/:userId", verifyToken, async (req, res) => {
+    const userId = req.params.userId;
+
         try{
-            let projectCache = cache.get('allProjects');
+            let projectCache = cache.get('allProjectsByOwnerId');
     
     
             if(!projectCache) {
-                let data = await projects.find();
+                let data = await projects.find().where('ownerId').equals(userId);
                 console.log("No cache data found. Fetching from DB....");
-                cache.set('allProjects', data, 30);
+                cache.set('allProjectsByOwnerId', data, 30);
     
                 res.send((data));
             }
