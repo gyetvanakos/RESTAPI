@@ -119,14 +119,32 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
     }
 });
 
-router.get("/:userId",  (req, res) => {
+router.get("/:userId", verifyToken, async  (req, res) => {
     const userId = req.params.userId;
 
-    users.findById(req.params.id)
-    .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
+        try{
+            let usersCache = cache.get('userByUserId');
+    
+    
+            if(!usersCache) {
+                let data = await users.findById(userId);
+                console.log("No cache data found. Fetching from DB....");
+                cache.set('userByUserId', data, 30);
+    
+                res.send((data));
+            }
+    
+            else{
+                console.log("Cache found :]");
+                res.send((usersCache));
+            }
+    
+        }
+        catch(err){
+            res.status(500).send({message: err.message})
+        }
+    });
 
-});
 
 
 router.post("/login", async (req, res) => {
