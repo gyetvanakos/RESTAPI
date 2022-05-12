@@ -212,7 +212,10 @@ router.post("/login", async (req, res) => {
         error: null,
         data: {
             token,
-            userId: user._id
+            userId: user._id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
         },
 
     });
