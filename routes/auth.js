@@ -197,8 +197,6 @@ router.post("/login", async (req, res) => {
         });
     }
 
-    const secret='secret'
-
     const token = jwt.sign({
             id: user._id,
         },
@@ -213,6 +211,7 @@ router.post("/login", async (req, res) => {
         data: {
             token,
             userId: user._id,
+            email: user.email,
         },
 
     });
