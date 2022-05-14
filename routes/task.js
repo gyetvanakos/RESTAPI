@@ -63,19 +63,8 @@ router.get("/project/:projectId/tasks", verifyToken, async (req, res) => {
     const projectId = req.params.projectId;
 
     try {
-        let tasksCache = cache.get('allTasksByProjectId');
-
-
-        if (!tasksCache) {
-            let data = await tasks.find().where('projectId').equals(projectId);
-            console.log("No cache data found. Fetching from DB....");
-            cache.set('allTasksByProjectId', data, 30);
-
-            res.send((data));
-        } else {
-            console.log("Cache found :]");
-            res.send((tasksCache));
-        }
+        let data = await tasks.find().where('projectId').equals(projectId);
+        res.send(data)
 
     } catch (err) {
         res.status(500).send({

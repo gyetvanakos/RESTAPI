@@ -71,7 +71,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.put("/:id", /*verifyToken,*/ async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
 
 
     const id = req.params.id;
@@ -213,9 +213,6 @@ router.post("/login", async (req, res) => {
         data: {
             token,
             userId: user._id,
-            email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
         },
 
     });

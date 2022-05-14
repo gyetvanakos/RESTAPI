@@ -16,15 +16,13 @@ app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDefinition));
 require("dotenv-flow").config();
 
 app.use(bodyParser.json());
+var cors = require('cors');
+app.use(cors());
 
 app.use(function (req, res, next) {
  res.header("Access-Control-Allow-Origin", "*")
  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept")
- res.header('Access-Control-Allow-Credentials', true);
- if (req.method === "OPTION"){
-    res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
-    return res.status(200).json({});
-} 
+ res.header("Access-Control-Allow-Method", "GET, HEAD, OPTION, POST, PUT, DELETE");
  next();
 })
 
