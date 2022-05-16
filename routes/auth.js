@@ -74,7 +74,11 @@ router.post("/register", async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
 
 
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt);
+    req.body.password=password;
     const id = req.params.id;
+    
 
     users.findByIdAndUpdate(id, req.body)
         .then(data => {
