@@ -104,7 +104,7 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
         if (!usersCache) {
             let data = await users.find();
             console.log("No cache data found. Fetching from DB....");
-            cache.set('allUsers', data, 30);
+            //cache.set('allUsers', data, 30);
 
             res.send((data));
         } else {

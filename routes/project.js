@@ -26,7 +26,7 @@ router.get("/:userId/", verifyToken, async (req, res) => {
             if(!projectCache) {
                 let data = await projects.find().where('ownerId').equals(userId);
                 console.log("No cache data found. Fetching from DB....");
-                cache.set('allProjectsByOwnerId', data, 30);
+                //cache.set('allProjectsByOwnerId', data, 30);
     
                 res.send((data));
             }

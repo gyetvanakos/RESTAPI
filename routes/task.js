@@ -44,7 +44,7 @@ router.get("/:userId", verifyToken, async (req, res) => {
         if (!tasksCache) {
             let data = await tasks.find().where('ownerId').equals(userId);
             console.log("No cache data found. Fetching from DB....");
-            cache.set('allTasksByOwnerId', data, 30);
+            //cache.set('allTasksByOwnerId', data, 30);
 
             res.send((data));
         } else {
