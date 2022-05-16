@@ -73,8 +73,10 @@ router.post("/register", async (req, res) => {
 
 router.put("/:id", verifyToken, async (req, res) => {
 
-
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt);
     const id = req.params.id;
+    req.body.password=password;
 
     users.findByIdAndUpdate(id, req.body)
         .then(data => {
@@ -117,7 +119,7 @@ router.get("/", /*verifyToken,*/ async (req, res) => {
             message: err.message
         })
     }
-});
+}); 
 
 router.get("/:userId", verifyToken, async  (req, res) => {
     const userId = req.params.userId;
@@ -129,7 +131,7 @@ router.get("/:userId", verifyToken, async  (req, res) => {
             if(!usersCache) {
                 let data = await users.findById(userId);
                 console.log("No cache data found. Fetching from DB....");
-                cache.set('userByUserId', data, 30);
+                //cache.set('userByUserId', data, 30);
     
                 res.send((data));
             }
@@ -212,6 +214,8 @@ router.post("/login", async (req, res) => {
             token,
             userId: user._id,
             email: user.email,
+            firstName: user.first_name,
+            lastName: user.last_name  
         },
 
     });
