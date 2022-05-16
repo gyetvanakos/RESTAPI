@@ -129,7 +129,7 @@ router.get("/:userId", verifyToken, async  (req, res) => {
             if(!usersCache) {
                 let data = await users.findById(userId);
                 console.log("No cache data found. Fetching from DB....");
-                cache.set('userByUserId', data, 30);
+                //cache.set('userByUserId', data, 30);
     
                 res.send((data));
             }
