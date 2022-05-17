@@ -11,18 +11,10 @@ const cache = new NodeCache({
 });
 
 router.post("/", /*verifyToken,*/ async (req, res) => {
-    const user = new users({
-        ...req.body,
-        user: req._id
-    })
-    const project = new projects({
-        ...req.body,
-        projects: req._id
-    })
 
     data = req.body;
 
-    tasks.insertMany(data)
+    tasks.create(data)
         .then(data => {
             res.status(200).send(data);
         })
