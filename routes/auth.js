@@ -209,7 +209,7 @@ router.post("/login", async (req, res) => {
         },
     );
 
-    res.header("auth-token", token).json({
+    res.header("Authorization", token).json({
         message: "Logged in succesfully",
         error: null,
         data: {

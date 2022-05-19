@@ -8,9 +8,8 @@ router.post("/", verifyToken, (req, res) => {
     
     data = req.body;
 
-    projects.insertMany(data)
+    projects.create(data)
     .then(data => {
-        cache.flushAll();
         res.send(data);})
     .catch(err => {res.status(500).send({message: err.message });})
 });
@@ -42,15 +41,7 @@ router.get("/:userId/", verifyToken, async (req, res) => {
         }
     });
 
-
-/*router.get("/:id", verifyToken, (req, res) => {
-
-    projects.findById(req.params.id)
-    .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message }); });
-
-});*/
-
+    
 router.put("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;

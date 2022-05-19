@@ -8,26 +8,25 @@ servers:
     description: Localhost 
 components:
   securitySchemes:
-    ApiKeyAuth:        # arbitrary name for the security scheme
-      type: apiKey
-      in: header       # can be "header", "query" or "cookie"
-      name: auth-token
+     bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
   schemas:
     Projects:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
         backgr_pic:
           type: string
+          default: https://newevolutiondesigns.com/images/freebies/rainbow-facebook-cover-1.jpg
         description:
           type: string
-        date:
-          type: Date
-        tasks:
+        users:
+          type: Schema.Types.ObjectId
+        ownerId:
           type: Schema.Types.ObjectId
     
     User:
@@ -41,27 +40,22 @@ components:
           type: string
         password:
           type: string
-        role:
-          type: boolean
+        date:
+          type: Date
         avatar:
           type: string
-        date:
-          type: string
+          default: https://i.stack.imgur.com/l60Hf.png
 
     Tasks:
       type: object
       properties:
-        id:
-          type: string
-        task:
+        title:
           type: string
         taskDescription:
           type: string
-        status:
-          type: Boolean
-        project:
+        projectId:
           type: Schema.Types.ObjectId
-        owner:
+        ownerId:
           type: Schema.Types.ObjectId
 
 paths:
@@ -92,8 +86,8 @@ paths:
 
   /users/login:
     post:
-      summary: Login a User
-      description: Login a User in order to get JWT token (auth-token)
+      summary: Login user
+      description: Login a User in order to get token (Authorization)
       requestBody:
         required: true
         content:
@@ -123,26 +117,11 @@ paths:
 
 
   /projects:
-    get:
-      summary: Retrieves a list of Products
-      description: Retrieves a list of products as JSON objects.
-      security:
-        - ApiKeyAuth: []  
-      responses:
-        200:
-          description: A list of product JSON objects in an array.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Product"
-    
     post:
       summary: New project
       description: New project
       security:
-        - ApiKeyAuth: []     
+        - bearerAuth: []    
       requestBody:
         required: true
         content:
@@ -163,14 +142,14 @@ paths:
       summary: Specific project
       description: Retrieves a specific project based on its id.
       security:
-        - ApiKeyAuth: []  
+        - bearerAuth: []  
       parameters:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: Owner id
           schema:
-            type: string
+            type: string   
       responses:
         200:
           description: A project in the format of a JSON object.
@@ -185,7 +164,7 @@ paths:
       summary: Updates a specific project
       description: Updates a specific project based on it id
       security:
-        - ApiKeyAuth: []            
+        - bearerAuth: []           
       parameters:
         - in: path
           name: id
@@ -212,7 +191,7 @@ paths:
       summary: Deletes a specific project
       description: Deletes a specific project based on it id
       security:
-        - ApiKeyAuth: []            
+        - bearerAuth: []             
       parameters:
         - in: path
           name: id
@@ -236,26 +215,11 @@ paths:
 
 
     /tasks:
-    get:
-      summary: Retrieves a list of tasks
-      description: Retrieves a list of tasks as JSON objects.
-      security:
-        - ApiKeyAuth: []  
-      responses:
-        200:
-          description: A list of tasks JSON objects in an array.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Tasks"
-    
     post:
       summary: New task
       description: New task
       security:
-        - ApiKeyAuth: []      
+        - bearerAuth: []      
       requestBody:
         required: true
         content:
@@ -270,75 +234,4 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tasks"
-
-    /tasks/{id}:
-    get:
-      summary: Specific task
-      description: Retrieves a specific task based on its id.
-      security:
-        - ApiKeyAuth: []  
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: MongoDB id
-          schema:
-            type: string
-      responses:
-        200:
-          description: A task in the format of a JSON object.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Tasks"
-
-    put:
-      summary: Updates a specific task
-      description: Updates a specific task based on its id
-      security:
-        - ApiKeyAuth: []            
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: MongoDB id
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Tasks"
-
-      responses:
-        201:
-          description: Task updated succesfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Tasks"
-
-    delete:
-      summary: Deletes a specific task
-      description: Deletes a specific task based on it id
-      security:
-        - ApiKeyAuth: []            
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: MongoDB id
-          schema:
-            type: string      
-
-      responses:
-        201:
-          description: Task deleted succesfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Projects"
   
