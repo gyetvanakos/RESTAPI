@@ -19,7 +19,6 @@ router.get("/:userId/", verifyToken, async (req, res) => {
     const userId = req.params.userId;
 
         try{
-            let projectCache = cache.get('allProjectsByOwnerId');
     
     
             if(!projectCache) {
@@ -40,6 +39,18 @@ router.get("/:userId/", verifyToken, async (req, res) => {
             res.status(500).send({message: err.message})
         }
     });
+
+    router.get("/:id", verifyToken, async (req, res) => {
+        const id = req.params.id
+        
+            try{
+                let data = await projects.findById(id);
+                res.send(data)
+            }
+            catch(err){
+                res.status(500).send({message: err.message})
+            }
+        });   
 
     
 router.put("/:id", verifyToken, (req, res) => {
