@@ -24,32 +24,22 @@ router.post("/", verifyToken, (req, res) => {
 });
 
 
-router.get("/:userId/", verifyToken, async (req, res) => {
-    const userId = req.params.userId;
+router.get("/all/:id/:email", verifyToken, async (req, res) => {
+    const id = req.params.id;
+    const email = req.params.email;
 
     try {
-        let ownedProjects = await projects.find().where('ownerId').equals(userId);
-        let invitedProject = await projects.find().where('users').in([userId])
+
+        let ownedProjects = await projects.find().where('ownerId').equals(id);
+        let invitedProject = await projects.find().where('users').in([email])
 
         let data = ownedProjects.concat(invitedProject);
-        res.send(data)
-    } catch (err) {
-        res.status(500).send({
-            message: err.message
-        })
-    }
-});
 
-router.get("/details/:id", verifyToken, async (req, res) => {
-    const id = req.params.id
-    console.log(id)
-    try {
-        let data = await projects.findById(id);
-        res.send(data)
-    } catch (err) {
-        res.status(500).send({
-            message: err.message
-        })
+        res.send((data));
+
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message })
     }
 });
 

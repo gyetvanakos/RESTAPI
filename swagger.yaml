@@ -113,6 +113,120 @@ paths:
                   data:
                     type: string
 
+  /tasks:
+    post:
+      summary: New task
+      description: New task
+      security:
+        - bearerAuth: []      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tasks"
+
+      responses:
+        201:
+          description: Task created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+  /tasks/{id}:
+    get:
+      summary: Specific task
+      description: Retrieves a specific project based on it's id.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Owner id
+          schema:
+            type: string   
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+    
+    /project/{id}/tasks:
+    get:
+      summary: Specific task
+      description: Retrieves a specific project based on it's id.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Owner id
+          schema:
+            type: string   
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+
+    put:
+      summary: Updates a specific task
+      description: Updates a specific task based on it's id
+      security:
+        - bearerAuth: []           
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tasks"
+
+      responses:
+        201:
+          description: Project updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+    delete:
+      summary: Deletes a specific task
+      description: Deletes a specific project based on it id
+      security:
+        - bearerAuth: []             
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string      
+
+      responses:
+        201:
+          description: Task deleted succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
 
 
 
@@ -214,24 +328,5 @@ paths:
 
 
 
-    /tasks:
-    post:
-      summary: New task
-      description: New task
-      security:
-        - bearerAuth: []      
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Tasks"
-
-      responses:
-        201:
-          description: Task created succesfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Tasks"
+    
   
