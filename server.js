@@ -5,6 +5,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
 const taskRoutes = require("./routes/task");
+const uploadRoutes = require("./routes/image");
 const swaggerUI= require('swagger-ui-express');
 const yaml = require('yamljs');
 const { TokenExpiredError } = require("jsonwebtoken");
