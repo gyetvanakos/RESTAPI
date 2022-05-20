@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Fake trello
+  title: Tasker
   description: MongoDB ExpressJS NodeJS REST API
   version: 1.0.0
 servers:
@@ -25,11 +25,11 @@ components:
         description:
           type: string
         users:
-          type: Schema.Types.ObjectId
+          type: string
         ownerId:
           type: Schema.Types.ObjectId
     
-    User:
+    Users:
       type: object
       properties:
         first_name:
@@ -45,6 +45,14 @@ components:
         avatar:
           type: string
           default: https://i.stack.imgur.com/l60Hf.png
+
+    UpdateUsers:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string    
 
     Tasks:
       type: object
@@ -113,6 +121,37 @@ paths:
                   data:
                     type: string
 
+
+  /users/{id}:
+    put:
+      summary: Updates an user
+      description:  Updates an user based on its id.
+      security:
+        - bearerAuth: []           
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUsers"
+
+      responses:
+        201:
+          description: User updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Projects"                  
+
+
+
   /tasks:
     post:
       summary: New task
@@ -136,8 +175,8 @@ paths:
 
   /tasks/{id}:
     get:
-      summary: Specific task
-      description: Retrieves a specific project based on it's id.
+      summary: Users tasks
+      description: Retrieves all the current users tasks based on it's id.
       security:
         - bearerAuth: []  
       parameters:
@@ -157,7 +196,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Tasks"
     
-    /project/{id}/tasks:
+    tasks/projects/{id}/tasks:
     get:
       summary: Specific task
       description: Retrieves a specific project based on it's id.
@@ -189,7 +228,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: Task id
           schema:
             type: string
       requestBody:
@@ -216,7 +255,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: Task id
           schema:
             type: string      
 
@@ -228,7 +267,39 @@ paths:
               schema:
                 $ref: "#/components/schemas/Tasks"
 
+  /projects/all/{id}/{email}:
+    get:
+      summary: Projects
+      description: Retrieves projects for an user.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: User id
+          schema:
+            type: string   
+        - in: path
+          name: email
+          required: true
+          description: Owner email
+          schema:
+            type: string   
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Projects"
 
+
+
+  
+              
 
   /projects:
     post:
@@ -250,30 +321,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/projects"
-  
-  /projects/{id}:
-    get:
-      summary: Specific project
-      description: Retrieves a specific project based on its id.
-      security:
-        - bearerAuth: []  
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: Owner id
-          schema:
-            type: string   
-      responses:
-        200:
-          description: A project in the format of a JSON object.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Projects"
-    
+
     put:
       summary: Updates a specific project
       description: Updates a specific project based on it id

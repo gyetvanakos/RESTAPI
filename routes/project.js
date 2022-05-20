@@ -44,6 +44,21 @@ router.get("/all/:id/:email", verifyToken, async (req, res) => {
 });
 
 
+router.get("/details/:id", verifyToken, async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    try {
+        let data = await projects.findById(id);
+        res.send(data)
+    } catch (err) {
+        res.status(500).send({
+            message: err.message
+        })
+        res.send((data));
+
+    }
+});
+
 router.put("/:id", verifyToken, (req, res) => {
 
     const id = req.params.id;
