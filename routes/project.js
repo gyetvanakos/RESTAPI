@@ -40,9 +40,9 @@ router.get("/:userId/", verifyToken, async (req, res) => {
     }
 });
 
-router.get("/details/:id", verifyToken, async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
     const id = req.params.id
-    console.log(id)
+
     try {
         let data = await projects.findById(id);
         res.send(data)
