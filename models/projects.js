@@ -9,7 +9,7 @@ let projectSchema = new Schema(
         backgr_pic: { type: String, default:bgrPicture },
         description: { type: String, required: true },
         date: { type: Date, default: Date.now },
-        users: [{ type: String }],
+        users: [{ type: Schema.Types.ObjectId, ref:'users'}],
         ownerId: { type: Schema.Types.ObjectId, required: true, ref:'users'},
     }  
 );
