@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Fake trello
+  title: Tasker
   description: MongoDB ExpressJS NodeJS REST API
   version: 1.0.0
 servers:
@@ -25,11 +25,11 @@ components:
         description:
           type: string
         users:
-          type: Schema.Types.ObjectId
+          type: string
         ownerId:
           type: Schema.Types.ObjectId
     
-    User:
+    Users:
       type: object
       properties:
         first_name:
@@ -40,11 +40,23 @@ components:
           type: string
         password:
           type: string
-        date:
-          type: Date
-        avatar:
+
+    UpdateProjects:
+      type: object
+      properties:
+        name:
           type: string
-          default: https://i.stack.imgur.com/l60Hf.png
+        description:
+          type: string 
+
+    UpdateTasks:
+      type: object
+      properties:
+        title:
+          type: string
+        taskDescription:
+          type: string
+                    
 
     Tasks:
       type: object
@@ -69,7 +81,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/Users"
 
       responses:
         201:
@@ -114,7 +126,161 @@ paths:
                     type: string
 
 
+  /users/{id}:
+    put:
+      summary: Updates a user
+      description:  Updates a user based on its id.
+      security:
+        - bearerAuth: []           
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUsers"
 
+      responses:
+        201:
+          description: User updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Projects"                  
+
+
+
+  /tasks:
+    post:
+      summary: New task
+      description: New task
+      security:
+        - bearerAuth: []      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tasks"
+
+      responses:
+        201:
+          description: Task created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+  /tasks/{id}:
+    get:
+      summary: Users tasks
+      description: Retrieves all the tasks that belongs to a specific user.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Owner id
+          schema:
+            type: string   
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+    
+    /tasks/projects/{id}/tasks:
+    get:
+      summary: Specific task
+      description: Retrieves a project's tasks.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Project id
+          schema:
+            type: string   
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+
+    put:
+      summary: Updates a specific task
+      description: Updates a specific task based on its id
+      security:
+        - bearerAuth: []           
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Task id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTasks"
+
+      responses:
+        201:
+          description: Project updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+    delete:
+      summary: Deletes a specific task
+      description: Deletes a specific project based on its id
+      security:
+        - bearerAuth: []             
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Task id
+          schema:
+            type: string      
+
+      responses:
+        201:
+          description: Task deleted succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+
+    
+
+
+                      
+              
+
+
+
+  
+              
 
   /projects:
     post:
@@ -136,18 +302,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/projects"
-  
-  /projects/{id}:
+
+  /projects/all/{id}/{email}:
     get:
-      summary: Specific project
-      description: Retrieves a specific project based on its id.
+      summary: All the projects
+      description: Retrieves all the projects for a specific user.
       security:
         - bearerAuth: []  
       parameters:
         - in: path
           name: id
           required: true
-          description: Owner id
+          description: User id
+          schema:
+            type: string   
+        - in: path
+          name: email
+          required: true
+          description: Owner email
           schema:
             type: string   
       responses:
@@ -159,7 +331,32 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Projects"
-    
+
+  /projects/details/{id}:
+    get:
+      summary: Specific project
+      description: Retrieves projects for a specific project for a user.
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Projects"                        
+
+
+  /projects/{id}:
     put:
       summary: Updates a specific project
       description: Updates a specific project based on it id
@@ -169,7 +366,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: Project id
           schema:
             type: string
       requestBody:
@@ -177,7 +374,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Projects"
+              $ref: "#/components/schemas/UpdateProjects"
 
       responses:
         201:
@@ -187,9 +384,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/Projects"
 
+
     delete:
       summary: Deletes a specific project
-      description: Deletes a specific project based on it id
+      description: Deletes a specific project based on its id
       security:
         - bearerAuth: []             
       parameters:
@@ -214,24 +412,5 @@ paths:
 
 
 
-    /tasks:
-    post:
-      summary: New task
-      description: New task
-      security:
-        - bearerAuth: []      
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Tasks"
-
-      responses:
-        201:
-          description: Task created succesfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Tasks"
+    
   
