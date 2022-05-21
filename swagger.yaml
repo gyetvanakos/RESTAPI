@@ -56,6 +56,14 @@ components:
           type: string
         taskDescription:
           type: string
+
+    UpdateUsers:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string      
                     
 
     Tasks:
@@ -301,7 +309,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/projects"
+                $ref: "#/components/schemas/Projects"
 
   /projects/all/{id}/{email}:
     get:
@@ -359,7 +367,7 @@ paths:
   /projects/{id}:
     put:
       summary: Updates a specific project
-      description: Updates a specific project based on it id
+      description: Updates a specific project based on its id
       security:
         - bearerAuth: []           
       parameters:
